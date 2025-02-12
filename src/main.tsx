@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
+import { Theme, Button } from "react-daisyui";
 
 import "./index.css";
 import App from "./App.tsx";
@@ -36,7 +37,9 @@ const Router = createBrowserRouter([
 ]);
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <Theme dataTheme="pastel">
+      <App />
+    </Theme>
     <RouterProvider router={Router} />
   </StrictMode>
 );
