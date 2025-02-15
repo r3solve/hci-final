@@ -2,6 +2,8 @@ import { BadgePlus } from "lucide-react";
 import TaskCard from "./TaskCard";
 import { useRef, useCallback, useEffect } from "react";
 import { Modal, Button } from "react-daisyui";
+import useTaskStore from "../store/tasks.store";
+import { useForm } from "react-hook-form";
 
 type Props = {
   title: string;
@@ -14,10 +16,14 @@ type Props = {
 };
 
 export default function TasksContainer({ title, allTasks }: Props) {
+
+  const { register, handleSubmit, reset, formState:{isSubmitted} } = useForm();
   const ref = useRef<HTMLDialogElement>(null);
   const handleShow = useCallback(() => {
     ref.current?.showModal();
   }, [ref]);
+  
+  const {addTask, active} = useTaskStore();
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
@@ -33,12 +39,19 @@ export default function TasksContainer({ title, allTasks }: Props) {
     };
   }, [event]);
 
+  const submiteNewTask = (data: any) => {
+    // console.log(data);
+    reset();
+    addTask("active", data);
+    console.log(active);
+  }
+
   return (
     <div className="bg-gray-100 p-4 rounded-xl w-full">
       <Modal ref={ref}>
         <Modal.Header className="font-bold">Add New Task</Modal.Header>
         <Modal.Body>
-          <form>
+          <form onSubmit={handleSubmit(submiteNewTask)} >
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -46,8 +59,9 @@ export default function TasksContainer({ title, allTasks }: Props) {
               >
                 Task Name
               </label>
-              <input
-                id="taskName"
+              <input 
+              {...register("taskName", { required: true })}
+                
                 type="text"
                 placeholder="Enter task name"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -62,6 +76,7 @@ export default function TasksContainer({ title, allTasks }: Props) {
                 Priority
               </label>
               <select
+              {...register("priority", { required: true })}
                 id="priority"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
@@ -79,6 +94,7 @@ export default function TasksContainer({ title, allTasks }: Props) {
                 Description
               </label>
               <textarea
+              {...register("description", { required: true })}
                 id="description"
                 placeholder="Enter task description"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -87,11 +103,13 @@ export default function TasksContainer({ title, allTasks }: Props) {
           </form>
         </Modal.Body>
         <Modal.Actions>
-          <form method="dialog" className="space-x-4">
+          <form onSubmit={handleSubmit(submiteNewTask)} method="dialog" className="space-x-4">
             <Button className="text-green-600 rounded-lg" type="submit">
               Add Task
             </Button>
-            <Button type="submit" onClick={() => ref.current?.close()}>
+          </form>
+          <form method="dialog" className="space-x-4">
+          <Button type="submit" onClick={() => ref.current?.close()}>
               Close
             </Button>
           </form>
@@ -101,6 +119,9 @@ export default function TasksContainer({ title, allTasks }: Props) {
         <BadgePlus onClick={handleShow} className="text-green-500" />
       </button>
       <h3 className="text-xl font-bold mb-4 text-gray-800">{title}</h3>
+
+
+      <div className="pb-24 max-h-96 overflow-y-auto col-span-2">
       {allTasks.map((task, index) => (
         <TaskCard
           key={index}
@@ -110,6 +131,8 @@ export default function TasksContainer({ title, allTasks }: Props) {
           dateAdded={task.dateAdded}
         />
       ))}
+      </div>
+     
     </div>
   );
 }

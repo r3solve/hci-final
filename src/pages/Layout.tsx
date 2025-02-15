@@ -89,10 +89,10 @@ function Layout() {
             />
           </div>
         </div>
-        <div className="mt-6 ms-8">
+        <div className="mt-4 ms-8">
           <Breadcrumbs items={breadcrumbItems} />
         </div>
-        <div className="overflow-y-auto h-full p-2">
+        <div className="overflow-y-auto h-full ">
           <Outlet />
         </div>
       </main>

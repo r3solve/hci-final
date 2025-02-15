@@ -26,9 +26,9 @@ export default function TaskCard({
 }) {
   return (
     <div className="bg-gray-200 p-4 rounded-2xl mb-4">
-      <div className="flex space-x-2 justify-end items-end w-full">
+      <button className="flex space-x-2 ms-auto p-2 justify-end items-end ">
         <ArrowUp className="w-6 h-6 text-green-500" />
-      </div>
+      </button>
       <h4 className="font-bold">{title}</h4>
       <p
         className={`font-bold text-white px-2 py-1 rounded ${createPriorityBadge(
@@ -39,9 +39,9 @@ export default function TaskCard({
       </p>
       <p className="p-4 text-gray-900">{description}</p>
       <p className="text-gray-500 text-sm">Date added: {dateAdded}</p>
-      <div className="flex space-x-2 justify-end items-end w-full">
+      <button className="flex space-x-2 ms-auto justify-end p-2 items-end ">
         <ArrowDown className="w-6 h-6 text-red-500" />
-      </div>
+      </button>
     </div>
   );
 }

@@ -15,6 +15,7 @@ const Router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <h1>The was and error</h1>,
     children: [
       {
         path: "/tasks",
