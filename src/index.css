@@ -23,3 +23,29 @@ body {
 *::-webkit-scrollbar-thumb {
   background-color: var(--secondary);
 }
+
+@keyframes fadeIn {
+  0% {
+    border-color: transparent;
+  }
+  20% {
+    border-color: rgba(70, 75, 67, 0.2); /* gold with 20% opacity */
+  }
+  40% {
+    border-color: rgba(255, 215, 0, 0.4); /* gold with 40% opacity */
+  }
+  60% {
+    border-color: rgba(57, 61, 56, 0.6); /* gold with 60% opacity */
+  }
+  80% {
+    border-color: rgba(37, 212, 183, 0.8); /* gold with 80% opacity */
+  }
+  100% {
+    border-color: gold;
+  }
+}
+
+#keyboard {
+  border-color: gold;
+  animation: fadeIn 1000ms infinite alternate;
+}

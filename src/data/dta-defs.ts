@@ -1,23 +1,4 @@
-export const activeTasks = [
-  {
-    title: "CRM system design",
-    priority: "Medium",
-    description: "Design the CRM system architecture",
-    dateAdded: "12/04/2021",
-  },
-  {
-    title: "Statistics",
-    priority: "Low",
-    description: "Gather and analyze statistical data",
-    dateAdded: "12/04/2021",
-  },
-  {
-    title: "Priorities",
-    priority: "High",
-    description: "Set and manage task priorities",
-    dateAdded: "12/04/2021",
-  },
-];
+export const activeTasks = [];
 export const inProgressTasks = [
   {
     title: "Notifications",

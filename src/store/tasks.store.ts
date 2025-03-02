@@ -1,20 +1,51 @@
-import { create } from 'zustand';
-import { activeTasks, completedTasks, inProgressTasks } from '../data/dta-defs';
+import { create } from "zustand";
+import { activeTasks, completedTasks, inProgressTasks } from "../data/dta-defs";
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  priority: "low" | "medium" | "high";
+  status: "active" | "inProgress" | "completed";
+}
 
 const useTaskStore = create((set) => ({
   active: [...activeTasks],
-  completedTasks: [...completedTasks],
-  inProgressTasks: [...inProgressTasks],
+  completed: [...completedTasks],
+  inProgress: [...inProgressTasks],
 
-  addTask: (which: string, element: any) =>
-    set((state:any) => {
+  addTask: (which: "active" | "completed" | "inProgress", task: Task) =>
+    set((state) => {
       switch (which) {
-        case 'active':
-          return { ...state, active: [...state.active, element] };
-        case 'completed':
-          return { ...state, completedTasks: [...state.completedTasks, element] };
-        case 'inProgress':
-          return { ...state, inProgressTasks: [...state.inProgressTasks, element] };
+        case "active":
+          return { ...state, active: [...state.active, task] };
+        case "completed":
+          return { ...state, completed: [...state.completed, task] };
+        case "inProgress":
+          return { ...state, inProgress: [...state.inProgress, task] };
+        default:
+          console.error(`Invalid task type "${which}"`);
+          return state;
+      }
+    }),
+
+  removeTask: (id: string, which: "active" | "completed" | "inProgress") =>
+    set((state: any) => {
+      switch (which) {
+        case "active":
+          return {
+            ...state,
+            active: state.active.filter((task: any) => task.id !== id),
+          };
+        case "completed":
+          return {
+            ...state,
+            completed: state.completed.filter((task: any) => task.id !== id),
+          };
+        case "inProgress":
+          return {
+            ...state,
+            inProgress: state.inProgress.filter((task: any) => task.id !== id),
+          };
         default:
           console.error(`Invalid task type "${which}"`);
           return state;
@@ -22,4 +53,4 @@ const useTaskStore = create((set) => ({
     }),
 }));
 
-export default useTaskStore; 
+export default useTaskStore;
